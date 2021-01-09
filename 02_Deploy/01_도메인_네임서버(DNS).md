@@ -18,7 +18,7 @@
 
 ### 브라우저의 IP 탐색 순서
 #### 브라우저 주소창에 도메인 주소를 입력하면, 다음의 순서로 IP를 찾는다.
-1. local chache를 검색
+1. local cache를 검색
     - 한번 방문한 이력이 있는 도메인의 IP주소를 기억해두고, 다음 요청시 해당 IP로 바로 이동
     - 로컬 캐시 삭제 방법 (안 되면 재부팅)
         - 윈도우 : ipconfig /renew
@@ -70,13 +70,15 @@
 <br>
 
 ### 네임서버 관리 서비스(dnszi, dnsever 등)
-#### : 네임서버를 제공하고, 도메인을 통합 관리 서비스를 제공해주는 업체
+#### : 네임서버 제공 및 도메인 통합 관리 서비스 업체
 1. 호스트 IP 관리(A레코드)
     - 호스트 설정 작업을 의미하며, 도메인 주소 입력시 이동할 ***ip주소*** 를 등록하는 기능
     - dogumaster.com 뿐만 아니라, blog.dogumaster.com 처럼 앞에 다른 이름을 붙일 수 있는 2차 도메인 설정도 가능
 2. 포워딩
     - 포워딩 설정을 의미하며, 특정 '도메인' 주소 입력시 이동할 다른 ***'도메인'*** 주소를 등록하는 기능
-
+3. CNAME
+    - 호스트 설정 작업을 의미하며, 특정 '도메인' 주소 입력시 이동할 다른 ***'도메인(CNAME)'*** 주소를 등록하는 기능
+    - ip대신 CNAME을 네임서버에 등록해둔다. {도메인: CNAME}
 <br>
 
 
@@ -126,7 +128,7 @@
 1. ICANN: 전세계 ip를 관리하고, Root 네임 서버 (a.root-servers.net ~ m.root-servers.net) 운영
 2. Registry(등록소): Top-level Domain 관리(a.gtld-servers.net )
 3. Registrar(등록대행자): 등록 대행 업체
-    - 네임 서버 제공(등록대행자 외에도 무료 제공 업체들도 있음)
+    - 네임 서버 제공(등록대행자 외에 네임서버만 제공하는 업체들도 있음)
 4. Registrant(등록자): 서버 운영자(나 같은 사람)
 
 <br>
@@ -148,7 +150,7 @@
 5. 등록대행자는 Registry(등록소)에 {도메인: NS 네임서버}를 등록해준다.
     - 네임서버를 지정하는걸 NS레코드 타입이라고 한다.
 6. Registry는 {도메인: NS 네임서버} 를 보관/관리한다.
-7. ICANN은 {com: NS a.gtld-servers.net}m {net: NS b.gtld-servers.net} 등 Top-level 도메인의 네임서버 주소만 보관/관리한다.
+7. ICANN은 {com: NS a.gtld-servers.net}, {net: NS b.gtld-servers.net} 등 Top-level 도메인의 네임서버 주소만 보관/관리한다.
 
 <br>
 
@@ -161,7 +163,9 @@
 ### TTL(Time To Leave)
 : 캐시가 적용되는 시간. 짦을수록 빨리 반영된다. 길수록 속도가 빠르다
 
-### DNS Record
+<br>
+
+### DNS Record와 레코드 타입
 #### 레코드 형식: 도메인 레코드타입 ip/주소
 1. A레코드 타입: IPv4 타입의 ip주소
     - dogumaster.com A 11.111.11.1
@@ -174,6 +178,8 @@
     - www.dogumaster.com으로 접속하면, dogumaster.com이 가르키는 ip주소로 접속하게 한다.
 1. AAAA레코드 타입: IPv6 타입의 주소
 
-#### 확인방법: nslookup
+<br>
+
+### DNS 레코드 확인방법: nslookup
 1. A레코드 / CNAME레코드: `nslookup -type=a 도메인`, `nslookup 도메인`
 1. NS레코드: `nslookup -type=ns 도메인`
